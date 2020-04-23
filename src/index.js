@@ -34,11 +34,7 @@ const NoteApp = () => {
     <div>
       <h1>Notes</h1>
       {notes.map((note) => (
-        <div key={note.title}>
-          <h3>{note.title}</h3>
-          <p>{note.body}</p>
-          <button onClick={() => removeNote(note.title)}>x</button>
-        </div>
+        <Note key={note.title} note={note} removeNote={removeNote} />
       ))}
       <p>Add Note</p>
       <form onSubmit={addNote}>
@@ -50,39 +46,56 @@ const NoteApp = () => {
   )
 }
 
-const App = (props) => {
-  const [count, setCount] = useState(props.initial);
-  const [text, setText] = useState('');
-  const [name, setName] = useState('Paavas');
-
+const Note = (props) => {
   useEffect(() => {
-    console.log('This should only run once!')
+    console.log('Setting note up');
+
+    return () => {
+      console.log('Cleaning up effect!')
+    }
   }, [])
-
-  useEffect(() => {
-    console.log('useEffect ran');
-    document.title = count;
-
-  }, [count])
-
-  const changeName = (e) => {
-    setName(e.target.value || "Anonymous");
-  }
-
   return (
     <div>
-      <p>Hi {name}, the current {text || 'count'} is {count}</p>
-      <button onClick={() => setCount(count + 1)}>+1</button>
-      <button onClick={() => setCount(props.initial)}>Reset</button>
-      <button onClick={() => setCount(count-1)}>-1</button>
-      <input value={text} onChange={(e) => setText(e.target.value)}/>
-      <input onChange={changeName} placeholder="Change Name" />
+      <h3>{props.note.title}</h3>
+      <p>{props.note.body}</p>
+      <button onClick={() => props.removeNote(props.note.title)}>x</button>
     </div>
   )
 }
-App.defaultProps = {
-  initial: 0
-}
+
+// const App = (props) => {
+//   const [count, setCount] = useState(props.initial);
+//   const [text, setText] = useState('');
+//   const [name, setName] = useState('Paavas');
+
+//   useEffect(() => {
+//     console.log('This should only run once!')
+//   }, [])
+
+//   useEffect(() => {
+//     console.log('useEffect ran');
+//     document.title = count;
+
+//   }, [count])
+
+//   const changeName = (e) => {
+//     setName(e.target.value || "Anonymous");
+//   }
+
+//   return (
+//     <div>
+//       <p>Hi {name}, the current {text || 'count'} is {count}</p>
+//       <button onClick={() => setCount(count + 1)}>+1</button>
+//       <button onClick={() => setCount(props.initial)}>Reset</button>
+//       <button onClick={() => setCount(count-1)}>-1</button>
+//       <input value={text} onChange={(e) => setText(e.target.value)}/>
+//       <input onChange={changeName} placeholder="Change Name" />
+//     </div>
+//   )
+// }
+// App.defaultProps = {
+//   initial: 0
+// }
 
 ReactDOM.render(
   <React.StrictMode>
